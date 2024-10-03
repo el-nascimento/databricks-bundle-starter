@@ -1,0 +1,12 @@
+# The main pipeline for dbks_bundle_starter
+resources:
+  pipelines:
+    dbks_bundle_starter_pipeline:
+      name: dbks_bundle_starter_pipeline
+      target: dbks_bundle_starter_${bundle.environment}
+      libraries:
+        - notebook:
+            path: ../src/dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: /Workspace/${workspace.file_path}/src

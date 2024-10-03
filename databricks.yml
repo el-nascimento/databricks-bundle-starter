@@ -1,0 +1,36 @@
+# This is a Databricks asset bundle definition for dbks_bundle_starter.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: dbks_bundle_starter
+
+include:
+  - resources/*.yml
+
+artifacts:
+  default:
+    type: whl
+    build: poetry build
+    path: .
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-ac112e7d-18b2.cloud.databricks.com
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-ac112e7d-18b2.cloud.databricks.com
+      # We explicitly specify /Users/lucas.nascimento@qubika.com to make sure we only have a single copy.
+      root_path: /Users/lucas.nascimento@qubika.com/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: lucas.nascimento@qubika.com
+        level: CAN_MANAGE
+    run_as:
+      user_name: lucas.nascimento@qubika.com
